@@ -1,0 +1,40 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install frontend deps
+        working-directory: server/frontend
+        run: npm install
+
+      - name: Lint frontend
+        working-directory: server/frontend
+        run: npm run lint --if-present
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Django deps
+        working-directory: server/djangoapp
+        run: |
+          pip install -r requirements.txt
+
+      - name: Django check
+        working-directory: server/djangoapp
+        run: |
+          python manage.py check
