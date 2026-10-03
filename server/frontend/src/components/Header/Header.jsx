@@ -5,7 +5,7 @@ import "../assets/bootstrap.min.css";
 const Header = () => {
     const logout = async (e) => {
     e.preventDefault();
-    let logout_url = window.location.origin+"/djangoapp/logout";
+    let logout_url = "http://localhost:8000"+"/djangoapp/logout";
     const res = await fetch(logout_url, {
       method: "GET",
     });
@@ -14,7 +14,7 @@ const Header = () => {
     if (json) {
       let username = sessionStorage.getItem('username');
       sessionStorage.removeItem('username');
-      window.location.href = window.location.origin;
+      window.location.href = "http://localhost:8000";
       window.location.reload();
       alert("Logging out "+username+"...")
     }
